@@ -52,12 +52,7 @@ export class SubgraphPoolDataService implements PoolDataService {
             return mapped;
         }
 
-        return getOnChainBalances(
-            mapped,
-            this.network.multicall,
-            this.network.vault,
-            this.provider
-        );
+        return getOnChainBalances(mapped, this.network, this.provider);
     }
 
     private get supportsLinearPools() {

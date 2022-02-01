@@ -1,5 +1,5 @@
 import { set } from 'lodash';
-import { Fragment, JsonFragment, Interface, Result } from '@ethersproject/abi';
+import { Interface, Result } from '@ethersproject/abi';
 import { CallOverrides, Contract } from '@ethersproject/contracts';
 import { Provider } from '@ethersproject/providers';
 import { BytesLike } from '@ethersproject/bytes';
@@ -16,12 +16,12 @@ export class Multicaller {
     constructor(
         multiAddress: string,
         provider: Provider,
-        abi: string | Array<Fragment | JsonFragment | string>,
+        contractInterface: Interface,
         options = {}
     ) {
         this.multiAddress = multiAddress;
         this.provider = provider;
-        this.interface = new Interface(abi);
+        this.interface = contractInterface;
         this.options = options;
     }
 

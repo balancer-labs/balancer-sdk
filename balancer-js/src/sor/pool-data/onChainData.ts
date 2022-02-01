@@ -1,41 +1,18 @@
 import { formatFixed } from '@ethersproject/bignumber';
 import { Provider } from '@ethersproject/providers';
 import { PoolFilter, SubgraphPoolBase } from '@balancer-labs/sor';
-import { Multicaller } from '@/lib/utils/multiCaller';
 import { isSameAddress } from '@/lib/utils';
-
-// TODO: decide whether we want to trim these ABIs down to the relevant functions
-import vaultAbi from '@/lib/abi/Vault.json';
-import aTokenRateProvider from '@/lib/abi/StaticATokenRateProvider.json';
-import weightedPoolAbi from '@/lib/abi/WeightedPool.json';
-import stablePoolAbi from '@/lib/abi/StablePool.json';
-import elementPoolAbi from '@/lib/abi/ConvergentCurvePool.json';
-import linearPoolAbi from '@/lib/abi/LinearPool.json';
+import { MulticallerFactory } from '@/lib/utils/multicall';
+import { BalancerNetworkConfig } from '@/types';
 
 export async function getOnChainBalances(
     subgraphPoolsOriginal: SubgraphPoolBase[],
-    multiAddress: string,
-    vaultAddress: string,
+    network: BalancerNetworkConfig,
     provider: Provider
 ): Promise<SubgraphPoolBase[]> {
     if (subgraphPoolsOriginal.length === 0) return subgraphPoolsOriginal;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const abis: any = Object.values(
-        // Remove duplicate entries using their names
-        Object.fromEntries(
-            [
-                ...vaultAbi,
-                ...aTokenRateProvider,
-                ...weightedPoolAbi,
-                ...stablePoolAbi,
-                ...elementPoolAbi,
-                ...linearPoolAbi,
-            ].map((row) => [row.name, row])
-        )
-    );
-
-    const multiPool = new Multicaller(multiAddress, provider, abis);
+    const multiPool = MulticallerFactory.create(network, provider);
 
     const supportedPoolTypes: string[] = Object.values(PoolFilter);
     const subgraphPools: SubgraphPoolBase[] = [];
@@ -47,9 +24,12 @@ export async function getOnChainBalances(
 
         subgraphPools.push(pool);
 
-        multiPool.call(`${pool.id}.poolTokens`, vaultAddress, 'getPoolTokens', [
-            pool.id,
-        ]);
+        multiPool.call(
+            `${pool.id}.poolTokens`,
+            network.vault,
+            'getPoolTokens',
+            [pool.id]
+        );
         multiPool.call(`${pool.id}.totalSupply`, pool.address, 'totalSupply');
 
         // TO DO - Make this part of class to make more flexible?
