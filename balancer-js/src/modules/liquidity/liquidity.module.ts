@@ -1,4 +1,5 @@
 import { BigNumber, formatFixed } from '@ethersproject/bignumber';
+import { BigNumber as OldBigNumber } from 'bignumber.js';
 import { parseFixed } from '@/lib/utils/math';
 import { Pool, PoolToken } from '@/types';
 import { Pools } from '@/modules/pools/pools.module';
@@ -8,6 +9,8 @@ import { Zero } from '@ethersproject/constants';
 
 const SCALING_FACTOR = 36;
 const TOKEN_WEIGHT_SCALING_FACTOR = 18;
+
+const log = console.log;
 
 export interface PoolBPTValue {
   address: string;
@@ -32,30 +35,39 @@ export class Liquidity {
         const pool = await this.pools.findBy('address', token.address);
         if (!pool) return;
 
-        const liquidity = await this.getLiquidity(pool);
-        const scaledLiquidity = parseFixed(liquidity, SCALING_FACTOR * 2);
-        const totalBPT = parseFixed(pool.totalShares, SCALING_FACTOR);
-        const bptValue = scaledLiquidity.div(totalBPT);
+        log(`Pool info: ${JSON.stringify(pool)}`);
+        const liquidity = new OldBigNumber(await this.getLiquidity(pool));
+        const totalBPT = new OldBigNumber(pool.totalShares);
+        const bptValue = liquidity.div(totalBPT);
 
-        const bptInParentPool = parseFixed(token.balance, SCALING_FACTOR);
-        const liquidityInParentPool = formatFixed(
-          bptValue.mul(bptInParentPool),
-          SCALING_FACTOR
-        ).replace(/\.[0-9]+/, ''); // strip trailing decimals, we don't need them as we're already scaled up by 1e36
+        const bptInParentPool = new OldBigNumber(token.balance);
+        const liquidityInParentPool = bptValue.times(bptInParentPool);
+
+        log(
+          `Total BPT: ${totalBPT.toString()}, BPT Value: ${bptValue}, BPT in Parent Pool: ${bptInParentPool}`
+        );
 
         return {
           address: pool.address,
-          liquidity: liquidityInParentPool,
+          liquidity: liquidityInParentPool.toString(),
         };
       })
     );
 
     const totalSubPoolLiquidity = subPoolLiquidity.reduce(
       (totalLiquidity, subPool) => {
-        if (!subPool) return Zero;
-        return totalLiquidity.add(subPool.liquidity);
+        if (!subPool) return new OldBigNumber(0);
+        return totalLiquidity.plus(subPool.liquidity);
       },
-      Zero
+      new OldBigNumber(0)
+    );
+
+    log(
+      `Subpool liquidity for pool ${
+        pool.address
+      } is: ${totalSubPoolLiquidity}. Comprised of: ${JSON.stringify(
+        subPoolLiquidity
+      )}`
     );
 
     const nonPoolTokens = parsedTokens.filter((token) => {
@@ -83,13 +95,18 @@ export class Liquidity {
       tokenBalances
     );
 
-    const totalLiquidity = formatFixed(
-      BigNumber.from(totalSubPoolLiquidity).add(
-        parseFixed(tokenLiquidity, SCALING_FACTOR)
-      ),
-      SCALING_FACTOR
+    log(
+      `Token liquidity for pool ${
+        pool.address
+      } is: ${tokenLiquidity}. Comprised of: ${JSON.stringify(tokenBalances)}`
     );
 
-    return totalLiquidity;
+    const totalLiquidity = new OldBigNumber(totalSubPoolLiquidity).plus(
+      tokenLiquidity
+    );
+
+    log(`Pool ${pool.address} has total liquidity of: ${totalLiquidity}`);
+
+    return totalLiquidity.toString();
   }
 }
