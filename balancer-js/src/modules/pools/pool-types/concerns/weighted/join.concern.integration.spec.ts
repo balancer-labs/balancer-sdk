@@ -9,7 +9,6 @@ import {
   Pool,
   PoolModel,
   PoolToken,
-  StaticPoolRepository,
 } from '@/.';
 import hardhat from 'hardhat';
 
@@ -19,18 +18,24 @@ import { AddressZero } from '@ethersproject/constants';
 
 import { forkSetup } from '@/test/lib/utils';
 import pools_14717479 from '@/test/lib/pools_14717479.json';
-import { PoolsProvider } from '@/modules/pools/provider';
+import { Pools } from '@/modules/pools';
+import { BALANCER_NETWORK_CONFIG } from '@/lib/constants/config';
+import { factories } from '@/test/factories';
 
 dotenv.config();
 
 const { ALCHEMY_URL: jsonRpcUrl } = process.env;
 const { ethers } = hardhat;
 
-let balancer: BalancerSDK;
 const rpcUrl = 'http://127.0.0.1:8545';
 const provider = new ethers.providers.JsonRpcProvider(rpcUrl, 1);
 const signer = provider.getSigner();
 let signerAddress: string;
+
+const balancer = new BalancerSDK({
+  network: Network.MAINNET,
+  rpcUrl,
+});
 
 // Slots used to set the account balance for each token through hardhat_setStorageAt
 // Info fetched using npm package slot20
@@ -46,10 +51,18 @@ let amountsIn: string[];
 
 // Setup
 
-const setupPool = async (provider: PoolsProvider, poolId: string) => {
-  const _pool = await provider.find(poolId);
-  if (!_pool) throw new Error('Pool not found');
-  const pool = _pool;
+// Using a static repository to make test consistent over time
+const poolsRepository = factories.data.findable(
+  factories.data.array2map(pools_14717479 as Pool[])
+);
+const repositories = factories.data.repositores({
+  pools: poolsRepository,
+});
+const pools = new Pools(BALANCER_NETWORK_CONFIG[1], repositories);
+
+const setupPool = async (poolId: string) => {
+  const pool = await pools.find(poolId);
+  if (!pool) throw new Error('Pool not found');
   return pool;
 };
 
@@ -74,24 +87,7 @@ describe('join execution', async () => {
   // Setup chain
   before(async function () {
     this.timeout(20000);
-    const sdkConfig = {
-      network: Network.MAINNET,
-      rpcUrl,
-    };
-    // Using a static repository to make test consistent over time
-    const poolsProvider = new PoolsProvider(
-      sdkConfig,
-      new StaticPoolRepository(pools_14717479 as Pool[])
-    );
-    balancer = new BalancerSDK(
-      sdkConfig,
-      undefined,
-      undefined,
-      undefined,
-      poolsProvider
-    );
     pool = await setupPool(
-      poolsProvider,
       '0xa6f548df93de924d73be7d25dc02554c6bd66db500020000000000000000000e' // B_50WBTC_50WETH
     );
     tokensIn = pool.tokens;
@@ -179,6 +175,7 @@ describe('join execution', async () => {
       ];
 
       const slippage = '100';
+
       const { functionName, attributes, value, minBPTOut } =
         await pool.buildJoin(
           signerAddress,
@@ -186,10 +183,19 @@ describe('join execution', async () => {
           amountsIn,
           slippage
         );
-      const transactionResponse = await balancer.contracts.vault
-        .connect(signer)
-        [functionName](...Object.values(attributes), { value });
-      transactionReceipt = await transactionResponse.wait();
+
+      if (functionName == 'joinPool') {
+        const transactionResponse = await balancer.contracts.vault
+          .connect(signer)
+          .joinPool(
+            attributes.poolId,
+            attributes.sender,
+            attributes.recipient,
+            attributes.joinPoolRequest,
+            { value }
+          );
+        transactionReceipt = await transactionResponse.wait();
+      }
 
       bptMinBalanceIncrease = BigNumber.from(minBPTOut);
     });

@@ -81,6 +81,7 @@ fragment SubgraphPool on Pool {
     amp
     expiryTime
     unitSeconds
+    createTime
     principalToken
     baseToken
     swapEnabled

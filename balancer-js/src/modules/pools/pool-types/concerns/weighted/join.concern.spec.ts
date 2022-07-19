@@ -1,8 +1,9 @@
 import { expect } from 'chai';
-import { BalancerSdkConfig, Network, StaticPoolRepository, Pool } from '@/.';
-import { PoolsProvider } from '@/modules/pools/provider';
-
+import { Pools } from '@/modules/pools';
+import { factories } from '@/test/factories';
+import { BALANCER_NETWORK_CONFIG } from '@/lib/constants/config';
 import pools_14717479 from '@/test/lib/pools_14717479.json';
+import type { Pool } from '@/types';
 
 const weth_usdc_pool_id =
   '0x96646936b91d6b9d7d0c47c496afbf3d6ec7b6f8000200000000000000000019';
@@ -11,15 +12,14 @@ const USDC_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48';
 const WETH_address = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
 
 describe('join module', () => {
-  const sdkConfig: BalancerSdkConfig = {
-    network: Network.MAINNET,
-    rpcUrl: '',
-  };
-
   describe('buildJoin', async () => {
-    const pools = new PoolsProvider(
-      sdkConfig,
-      new StaticPoolRepository(pools_14717479 as Pool[])
+    const pools = new Pools(
+      BALANCER_NETWORK_CONFIG[1],
+      factories.data.repositores({
+        pools: factories.data.findable(
+          factories.data.array2map(pools_14717479 as Pool[])
+        ),
+      })
     );
     const pool = await pools.find(weth_usdc_pool_id);
     if (!pool) throw new Error('Pool not found');

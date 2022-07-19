@@ -1,7 +1,7 @@
 import { BigNumber, formatFixed } from '@ethersproject/bignumber';
 import { parseFixed } from '@/lib/utils/math';
 import { Pool, PoolToken } from '@/types';
-import { Pools } from '@/modules/pools/pools.module';
+import { PoolTypeConcerns } from '@/modules/pools/pool-type-concerns';
 import { PoolRepository } from '../data';
 import { TokenPriceProvider } from '../data';
 import { Zero } from '@ethersproject/constants';
@@ -79,9 +79,9 @@ export class Liquidity {
       })
     );
 
-    const tokenLiquidity = Pools.from(pool.poolType).liquidity.calcTotal(
-      tokenBalances
-    );
+    const tokenLiquidity = PoolTypeConcerns.from(
+      pool.poolType
+    ).liquidity.calcTotal(tokenBalances);
 
     const totalLiquidity = formatFixed(
       BigNumber.from(totalSubPoolLiquidity).add(

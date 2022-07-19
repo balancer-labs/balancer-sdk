@@ -12,13 +12,5 @@ import { BalancerSDK, Pools } from '@balancer/sdk';
 
 // With full SDK
 const balancer = new BalancerSDK(...configParams);
-
-balancer.pools.weighted.liquidity.calcTotal(...);
-balancer.pools.stable.liquidity.calcTotal(...);
-
-// or with pools module directly
-const pools = new Pools(...configParams);
-
-pools.weighted.liquidity.calcTotal(...);
-pools.stable.liquidity.calcTotal(...);
+balancer.pools.find(poolId).liquidity();
 ```

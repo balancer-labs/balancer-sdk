@@ -7,11 +7,11 @@ import {
   getSpotPriceAfterSwapForPath,
 } from '@balancer-labs/sor';
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
-import { Pools } from '@/modules/pools/pools.module';
+import { PoolTypeConcerns } from '@/modules/pools/pool-type-concerns';
 
 export class Pricing {
   private readonly swaps: Swaps;
-  private pools: Pools;
+  private pools: PoolTypeConcerns;
 
   constructor(config: BalancerSdkConfig, swaps?: Swaps) {
     if (swaps) {
@@ -19,7 +19,7 @@ export class Pricing {
     } else {
       this.swaps = new Swaps(config);
     }
-    this.pools = new Pools(config);
+    this.pools = new PoolTypeConcerns(config);
   }
 
   /**
@@ -80,7 +80,7 @@ export class Pricing {
       );
       if (!poolData)
         throw new BalancerError(BalancerErrorCode.POOL_DOESNT_EXIST);
-      const pool = Pools.from(poolData.poolType as PoolType);
+      const pool = PoolTypeConcerns.from(poolData.poolType as PoolType);
       return pool.spotPriceCalculator.calcPoolSpotPrice(
         tokenIn,
         tokenOut,

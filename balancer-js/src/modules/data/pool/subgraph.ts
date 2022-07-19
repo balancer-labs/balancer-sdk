@@ -1,46 +1,97 @@
+import { Findable } from '../types';
+import {
+  createSubgraphClient,
+  SubgraphClient,
+  SubgraphPool,
+  Pool_OrderBy,
+  OrderDirection,
+} from '@/modules/subgraph/subgraph';
+import { PoolAttribute } from './types';
 import { Pool, PoolType } from '@/types';
-import { PoolAttribute, PoolRepository } from './types';
-import { PoolToken, SubgraphClient } from '@/modules/subgraph/subgraph';
 
-export class SubgraphPoolRepository implements PoolRepository {
-  constructor(private client: SubgraphClient) {}
+/**
+ * Access pools using generated subgraph client.
+ *
+ * Balancer's subgraph URL: https://thegraph.com/hosted-service/subgraph/balancer-labs/balancer-v2
+ */
+export class PoolsSubgraphRepository implements Findable<Pool, PoolAttribute> {
+  private client: SubgraphClient;
+  public pools: SubgraphPool[] = [];
+
+  constructor(url: string) {
+    this.client = createSubgraphClient(url);
+  }
+
+  async fetch(): Promise<SubgraphPool[]> {
+    const { pool0, pool1000 } = await this.client.Pools({
+      where: { swapEnabled: true, totalShares_gt: '0' },
+      orderBy: Pool_OrderBy.TotalLiquidity,
+      orderDirection: OrderDirection.Desc,
+    });
+
+    // TODO: how to best convert subgraph type to sdk internal type?
+    this.pools = [...pool0, ...pool1000];
+
+    return this.pools;
+  }
 
   async find(id: string): Promise<Pool | undefined> {
-    const { pool } = await this.client.Pool({ id });
-    return this.mapPool(pool);
-  }
-
-  async findBy(
-    attribute: PoolAttribute,
-    value: string
-  ): Promise<Pool | undefined> {
-    switch (attribute) {
-      case 'id':
-        return this.find(value);
-      case 'address':
-        // eslint-disable-next-line no-case-declarations
-        const { pool0 } = await this.client.Pools({
-          where: { address: value },
-        });
-        return this.mapPool(pool0);
-      default:
-        return undefined;
+    if (this.pools.length == 0) {
+      await this.fetch();
     }
+
+    return this.findBy('id', id);
   }
 
-  // Helper methods
+  async findBy(param: PoolAttribute, value: string): Promise<Pool | undefined> {
+    if (this.pools.length == 0) {
+      await this.fetch();
+    }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private mapPool(pool: any): Pool | undefined {
-    if (!pool) return undefined;
-    const poolType = pool?.poolType as PoolType;
-    if (!poolType) throw new Error('Unknown pool type');
-    const tokens = (pool?.tokens as PoolToken[]) || [];
-    if (tokens.length === 0) throw new Error('Pool without tokens');
+    const pool = this.pools.find((pool) => pool[param] == value);
+    if (pool) {
+      return this.mapType(pool);
+    }
+    return undefined;
+  }
+
+  // async where(filters: Map<PoolAttribute, string>): Promise<Pool[]> {
+  //   if (this.pools.length == 0) {
+  //     await this.fetch();
+  //   }
+  //   const applyFilters = (pool: SubgraphPool) => {
+
+  //   }
+
+  //   const pools = this.pools.filter((pool) => {
+  //     filters.
+  //   });
+  // }
+
+  private mapType(subgraphPool: SubgraphPool): Pool {
     return {
-      ...pool,
-      poolType,
-      tokens,
+      id: subgraphPool.id,
+      address: subgraphPool.address,
+      poolType: subgraphPool.poolType as PoolType,
+      swapFee: subgraphPool.swapFee,
+      // owner: subgraphPool.owner,
+      // factory: subgraphPool.factory,
+      tokens: subgraphPool.tokens || [],
+      tokensList: subgraphPool.tokensList,
+      tokenAddresses: (subgraphPool.tokens || []).map((t) => t.address),
+      totalLiquidity: subgraphPool.totalLiquidity,
+      totalShares: subgraphPool.totalShares,
+      totalSwapFee: subgraphPool.totalSwapFee,
+      totalSwapVolume: subgraphPool.totalSwapVolume,
+      // onchain: subgraphPool.onchain,
+      createTime: subgraphPool.createTime,
+      // mainTokens: subgraphPool.mainTokens,
+      // wrappedTokens: subgraphPool.wrappedTokens,
+      // unwrappedTokens: subgraphPool.unwrappedTokens,
+      // isNew: subgraphPool.isNew,
+      // volumeSnapshot: subgraphPool.volumeSnapshot,
+      // feesSnapshot: subgraphPool.feesSnapshot,
+      // boost: subgraphPool.boost,
     };
   }
 }

@@ -1,7 +1,7 @@
-import { Token } from '@/types';
-import { TokenAttribute, TokenProvider } from './types';
+import type { Findable, Token } from '@/types';
+import type { TokenAttribute } from './types';
 
-export class StaticTokenProvider implements TokenProvider {
+export class StaticTokenProvider implements Findable<Token, TokenAttribute> {
   constructor(private tokens: Token[]) {}
 
   async find(address: string): Promise<Token | undefined> {

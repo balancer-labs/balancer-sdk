@@ -2,7 +2,7 @@ overwrite: true
 generates:
     src/modules/subgraph/generated/balancer-subgraph-types.ts:
         schema: ${BALANCER_SUBGRAPH_URL:https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2}
-        documents: 'src/modules/subgraph/graphql/**/*.graphql'
+        documents: 'src/modules/subgraph/balancer-v2/**/*.graphql'
         plugins:
             - typescript
             - typescript-operations
@@ -14,6 +14,22 @@ generates:
                 BigDecimal: string
     src/modules/subgraph/generated/balancer-subgraph-schema.graphql:
         schema: ${BALANCER_SUBGRAPH_URL:https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2}
+        plugins:
+            - schema-ast
+    src/modules/subgraph/generated/balancer-gauges.ts:
+        schema: ${BALANCER_GAUGES_URL:https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges}
+        documents: 'src/modules/subgraph/balancer-gauges/**/*.graphql'
+        plugins:
+            - typescript
+            - typescript-operations
+            - typescript-graphql-request
+        config:
+            scalars:
+                BigInt: string
+                Bytes: string
+                BigDecimal: string
+    src/modules/subgraph/generated/balancer-gauges.graphql:
+        schema: ${BALANCER_GAUGES_URL:https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gauges}
         plugins:
             - schema-ast
 hooks:

@@ -6,7 +6,12 @@ import { StablePhantom } from './pool-types/stablePhantom.module';
 import { Linear } from './pool-types/linear.module';
 import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 
-export class Pools {
+/**
+ * Wrapper around pool type specific methods.
+ *
+ * Returns a class instance of a type specific method handlers.
+ */
+export class PoolTypeConcerns {
   constructor(
     config: BalancerSdkConfig,
     public weighted = new Weighted(),

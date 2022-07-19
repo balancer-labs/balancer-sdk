@@ -35,68 +35,68 @@ async function executePoolFetching() {
     provider
   );
 
-    const mockPoolDataService = new MockPoolDataService(onchain);
+  const mockPoolDataService = new MockPoolDataService(onchain);
 
-    const balancer = new BalancerSDK({
-        network,
-        rpcUrl,
-        sor: {
-            tokenPriceService: 'coingecko',
-            poolDataService: mockPoolDataService,
-        },
-    });
-    
-    const tokenOutContract = balancer.contracts.ERC20(tokenOut, provider);
+  const balancer = new BalancerSDK({
+    network,
+    rpcUrl,
+    sor: {
+      tokenPriceService: 'coingecko',
+      poolDataService: mockPoolDataService,
+    },
+  });
 
-    await balancer.swaps.fetchPools();
+  const tokenOutContract = balancer.contracts.ERC20(tokenOut, provider);
 
-    const swapInfo = await balancer.swaps.findRouteGivenIn({
-        // tokenIn: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // weth
-        tokenIn: AddressZero, // eth
-        tokenOut,
-        amount: parseFixed('1', 18),
-        gasPrice: parseFixed('1', 9),
-        maxPools: 4,
-    });
+  await balancer.swaps.fetchPools();
 
-    const userAddress = wallet.address;
-    const deadline = BigNumber.from(`${Math.ceil(Date.now() / 1000) + 60}`); // 60 seconds from now
-    const maxSlippage = 50; // 50 bsp = 0.5%
+  const swapInfo = await balancer.swaps.findRouteGivenIn({
+    // tokenIn: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // weth
+    tokenIn: AddressZero, // eth
+    tokenOut,
+    amount: parseFixed('1', 18),
+    gasPrice: parseFixed('1', 9),
+    maxPools: 4,
+  });
 
-    const transactionAttributes = balancer.swaps.buildSwap({
-        userAddress,
-        swapInfo,
-        kind: 0,
-        deadline,
-        maxSlippage,
-    });
+  const userAddress = wallet.address;
+  const deadline = BigNumber.from(`${Math.ceil(Date.now() / 1000) + 60}`); // 60 seconds from now
+  const maxSlippage = 50; // 50 bsp = 0.5%
 
-    // Extract parameters required for sendTransaction
-    const { to, data, value } = transactionAttributes;
+  const transactionAttributes = balancer.swaps.buildSwap({
+    userAddress,
+    swapInfo,
+    kind: 0,
+    deadline,
+    maxSlippage,
+  });
 
-    // Execution with ethers.js
-    try {
-        const balanceBefore = await tokenOutContract.balanceOf(userAddress);
+  // Extract parameters required for sendTransaction
+  const { to, data, value } = transactionAttributes;
 
-        await (
-            await wallet.sendTransaction({
-                to,
-                data,
-                value,
-            })
-        ).wait();
+  // Execution with ethers.js
+  try {
+    const balanceBefore = await tokenOutContract.balanceOf(userAddress);
 
-        // check delta
-        const balanceAfter = await tokenOutContract.balanceOf(userAddress);
-        console.log(
-            `Amount received: ${formatFixed(
-                balanceAfter.sub(balanceBefore),
-                8
-            )} Amount expected: ${formatFixed(swapInfo.returnAmount, 8)}`
-        );
-    } catch (err) {
-        console.log(err);
-    }
+    await (
+      await wallet.sendTransaction({
+        to,
+        data,
+        value,
+      })
+    ).wait();
+
+    // check delta
+    const balanceAfter = await tokenOutContract.balanceOf(userAddress);
+    console.log(
+      `Amount received: ${formatFixed(
+        balanceAfter.sub(balanceBefore),
+        8
+      )} Amount expected: ${formatFixed(swapInfo.returnAmount, 8)}`
+    );
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // yarn examples:run ./examples/swap.ts

@@ -1,8 +1,19 @@
-import { BigNumberish } from '@ethersproject/bignumber';
-import { Network } from './lib/constants/network';
-import { Contract } from '@ethersproject/contracts';
-import { PoolDataService, TokenPriceService } from '@balancer-labs/sor';
-import { JoinPoolAttributes } from './modules/pools/pool-types/concerns/types';
+import type { BigNumberish } from '@ethersproject/bignumber';
+import type { Network } from './lib/constants/network';
+import type { Contract } from '@ethersproject/contracts';
+import type { PoolDataService, TokenPriceService } from '@balancer-labs/sor';
+import type { JoinPoolAttributes } from './modules/pools/pool-types/concerns/types';
+import type {
+  Findable,
+  LiquidityGauge,
+  PoolAttribute,
+  TokenAttribute,
+} from '@/modules/data/types';
+import type { BaseFeeDistributor } from './modules/data';
+
+export * from '@/modules/data/types';
+import type { AprBreakdown } from '@/modules/pools/apr/apr';
+export { AprBreakdown };
 
 export type Address = string;
 
@@ -32,6 +43,8 @@ export interface ContractAddresses {
   vault: string;
   multicall: string;
   lidoRelayer?: string;
+  gaugeController: string;
+  feeDistributor: string;
 }
 
 export interface BalancerNetworkConfig {
@@ -43,14 +56,28 @@ export interface BalancerNetworkConfig {
       lbpRaisingTokens?: string[];
       stETH?: string;
       wstETH?: string;
+      bal: string;
+      veBal: string;
+      bbaUsd: string;
     };
   };
   urls: {
     subgraph: string;
+    gaugesSubgraph: string;
   };
   pools: {
     wETHwstETH?: PoolReference;
   };
+}
+
+export interface BalancerDataRepositories {
+  pools: Findable<Pool, PoolAttribute>;
+  tokenPrices: Findable<Price>;
+  tokenMeta: Findable<Token, TokenAttribute>;
+  liquidityGauges: Findable<LiquidityGauge>;
+  feeDistributor: BaseFeeDistributor;
+  feeCollector: Findable<number>;
+  tokenYields: Findable<number>;
 }
 
 export type PoolReference = {
@@ -205,4 +232,5 @@ export interface PoolModel extends Pool {
     amountsIn: string[],
     slippage: string
   ) => Promise<JoinPoolAttributes>;
+  apr: () => Promise<AprBreakdown>;
 }

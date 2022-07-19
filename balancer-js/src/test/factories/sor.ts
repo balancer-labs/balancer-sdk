@@ -6,6 +6,7 @@ import {
   SwapV2,
 } from '@balancer-labs/sor';
 import { BigNumber } from '@ethersproject/bignumber';
+import { namedTokens } from './named-tokens';
 
 const swapV2 = Factory.define<SwapV2>(() => ({
   poolId: '0xe2957c36816c1033e15dd3149ddf2508c3cfe79076ce4bde6cb3ecd34d4084b4',
@@ -30,18 +31,6 @@ const swapInfo = Factory.define<SwapInfo>(() => ({
   returnAmountFromSwaps: BigNumber.from('1000000000000000000'),
   returnAmountConsideringFees: BigNumber.from('1000000000000000000'),
 }));
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const namedTokens: Record<string, any> = {
-  wETH: {
-    address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    decimals: 18,
-  },
-  wBTC: {
-    address: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-    decimals: 8,
-  },
-};
 
 const subgraphToken = Factory.define<SubgraphToken>(({ transientParams }) => {
   const { symbol } = transientParams;

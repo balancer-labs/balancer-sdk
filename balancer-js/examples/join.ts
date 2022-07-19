@@ -57,7 +57,7 @@ async function join() {
   );
 
   // Use SDK to find pool info
-  const pool: PoolModel | undefined = await balancer.poolsProvider.find(poolId);
+  const pool: PoolModel | undefined = await balancer.pools.find(poolId);
   if (!pool) throw new Error('Pool not found');
 
   // Checking balances to confirm success

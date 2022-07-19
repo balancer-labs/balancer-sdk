@@ -49,6 +49,7 @@ input AmpUpdate_filter {
   id_not: ID
   id_not_in: [ID!]
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -185,6 +186,7 @@ input BalancerSnapshot_filter {
   totalSwapVolume_not: BigDecimal
   totalSwapVolume_not_in: [BigDecimal!]
   vault: String
+  vault_: Balancer_filter
   vault_contains: String
   vault_contains_nocase: String
   vault_ends_with: String
@@ -236,6 +238,7 @@ input Balancer_filter {
   poolCount_lte: Int
   poolCount_not: Int
   poolCount_not_in: [Int!]
+  pools_: Pool_filter
   totalLiquidity: BigDecimal
   totalLiquidity_gt: BigDecimal
   totalLiquidity_gte: BigDecimal
@@ -332,6 +335,7 @@ input GradualWeightUpdate_filter {
   id_not: ID
   id_not_in: [ID!]
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -390,77 +394,6 @@ enum InvestType {
   Join
 }
 
-type Investment {
-  amount: BigDecimal!
-  assetManagerAddress: Bytes!
-  id: ID!
-  poolTokenId: PoolToken!
-  timestamp: Int!
-}
-
-input Investment_filter {
-  """Filter for the block changed event."""
-  _change_block: BlockChangedFilter
-  amount: BigDecimal
-  amount_gt: BigDecimal
-  amount_gte: BigDecimal
-  amount_in: [BigDecimal!]
-  amount_lt: BigDecimal
-  amount_lte: BigDecimal
-  amount_not: BigDecimal
-  amount_not_in: [BigDecimal!]
-  assetManagerAddress: Bytes
-  assetManagerAddress_contains: Bytes
-  assetManagerAddress_in: [Bytes!]
-  assetManagerAddress_not: Bytes
-  assetManagerAddress_not_contains: Bytes
-  assetManagerAddress_not_in: [Bytes!]
-  id: ID
-  id_gt: ID
-  id_gte: ID
-  id_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_not: ID
-  id_not_in: [ID!]
-  poolTokenId: String
-  poolTokenId_contains: String
-  poolTokenId_contains_nocase: String
-  poolTokenId_ends_with: String
-  poolTokenId_ends_with_nocase: String
-  poolTokenId_gt: String
-  poolTokenId_gte: String
-  poolTokenId_in: [String!]
-  poolTokenId_lt: String
-  poolTokenId_lte: String
-  poolTokenId_not: String
-  poolTokenId_not_contains: String
-  poolTokenId_not_contains_nocase: String
-  poolTokenId_not_ends_with: String
-  poolTokenId_not_ends_with_nocase: String
-  poolTokenId_not_in: [String!]
-  poolTokenId_not_starts_with: String
-  poolTokenId_not_starts_with_nocase: String
-  poolTokenId_starts_with: String
-  poolTokenId_starts_with_nocase: String
-  timestamp: Int
-  timestamp_gt: Int
-  timestamp_gte: Int
-  timestamp_in: [Int!]
-  timestamp_lt: Int
-  timestamp_lte: Int
-  timestamp_not: Int
-  timestamp_not_in: [Int!]
-}
-
-enum Investment_orderBy {
-  amount
-  assetManagerAddress
-  id
-  poolTokenId
-  timestamp
-}
-
 type JoinExit {
   amounts: [BigDecimal!]!
   id: ID!
@@ -490,6 +423,7 @@ input JoinExit_filter {
   id_not: ID
   id_not_in: [ID!]
   pool: String
+  pool_: Pool_filter
   pool_contains: String
   pool_contains_nocase: String
   pool_ends_with: String
@@ -534,6 +468,7 @@ input JoinExit_filter {
   type_not: InvestType
   type_not_in: [InvestType!]
   user: String
+  user_: User_filter
   user_contains: String
   user_contains_nocase: String
   user_ends_with: String
@@ -601,6 +536,7 @@ input LatestPrice_filter {
   id_not: ID
   id_not_in: [ID!]
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -645,6 +581,92 @@ enum LatestPrice_orderBy {
   pricingAsset
 }
 
+type ManagementOperation {
+  cashDelta: BigDecimal!
+  id: ID!
+  managedDelta: BigDecimal!
+  poolTokenId: PoolToken!
+  timestamp: Int!
+  type: OperationType!
+}
+
+input ManagementOperation_filter {
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+  cashDelta: BigDecimal
+  cashDelta_gt: BigDecimal
+  cashDelta_gte: BigDecimal
+  cashDelta_in: [BigDecimal!]
+  cashDelta_lt: BigDecimal
+  cashDelta_lte: BigDecimal
+  cashDelta_not: BigDecimal
+  cashDelta_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  managedDelta: BigDecimal
+  managedDelta_gt: BigDecimal
+  managedDelta_gte: BigDecimal
+  managedDelta_in: [BigDecimal!]
+  managedDelta_lt: BigDecimal
+  managedDelta_lte: BigDecimal
+  managedDelta_not: BigDecimal
+  managedDelta_not_in: [BigDecimal!]
+  poolTokenId: String
+  poolTokenId_: PoolToken_filter
+  poolTokenId_contains: String
+  poolTokenId_contains_nocase: String
+  poolTokenId_ends_with: String
+  poolTokenId_ends_with_nocase: String
+  poolTokenId_gt: String
+  poolTokenId_gte: String
+  poolTokenId_in: [String!]
+  poolTokenId_lt: String
+  poolTokenId_lte: String
+  poolTokenId_not: String
+  poolTokenId_not_contains: String
+  poolTokenId_not_contains_nocase: String
+  poolTokenId_not_ends_with: String
+  poolTokenId_not_ends_with_nocase: String
+  poolTokenId_not_in: [String!]
+  poolTokenId_not_starts_with: String
+  poolTokenId_not_starts_with_nocase: String
+  poolTokenId_starts_with: String
+  poolTokenId_starts_with_nocase: String
+  timestamp: Int
+  timestamp_gt: Int
+  timestamp_gte: Int
+  timestamp_in: [Int!]
+  timestamp_lt: Int
+  timestamp_lte: Int
+  timestamp_not: Int
+  timestamp_not_in: [Int!]
+  type: OperationType
+  type_in: [OperationType!]
+  type_not: OperationType
+  type_not_in: [OperationType!]
+}
+
+enum ManagementOperation_orderBy {
+  cashDelta
+  id
+  managedDelta
+  poolTokenId
+  timestamp
+  type
+}
+
+enum OperationType {
+  Deposit
+  Update
+  Withdraw
+}
+
 """Defines the order direction, either ascending or descending"""
 enum OrderDirection {
   asc
@@ -665,11 +687,16 @@ type Pool {
   mainIndex: Int
   managementFee: BigDecimal
   name: String
+  oracleEnabled: Boolean!
   owner: Bytes
   poolType: String
   priceRateProviders(first: Int = 100, orderBy: PriceRateProvider_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: PriceRateProvider_filter): [PriceRateProvider!]
   principalToken: Bytes
+  root3Alpha: BigDecimal
   shares(first: Int = 100, orderBy: PoolShare_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: PoolShare_filter): [PoolShare!]
+  snapshots(first: Int = 100, orderBy: PoolSnapshot_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: PoolSnapshot_filter): [PoolSnapshot!]
+  sqrtAlpha: BigDecimal
+  sqrtBeta: BigDecimal
   strategyType: Int!
   swapEnabled: Boolean!
   swapFee: BigDecimal!
@@ -721,6 +748,7 @@ input PoolHistoricalLiquidity_filter {
   id_not: ID
   id_not_in: [ID!]
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -809,6 +837,7 @@ input PoolShare_filter {
   id_not: ID
   id_not_in: [ID!]
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -829,6 +858,7 @@ input PoolShare_filter {
   poolId_starts_with: String
   poolId_starts_with_nocase: String
   userAddress: String
+  userAddress_: User_filter
   userAddress_contains: String
   userAddress_contains_nocase: String
   userAddress_ends_with: String
@@ -894,6 +924,7 @@ input PoolSnapshot_filter {
   liquidity_not: BigDecimal
   liquidity_not_in: [BigDecimal!]
   pool: String
+  pool_: Pool_filter
   pool_contains: String
   pool_contains_nocase: String
   pool_ends_with: String
@@ -960,13 +991,15 @@ enum PoolSnapshot_orderBy {
 
 type PoolToken {
   address: String!
+  assetManager: Bytes!
   balance: BigDecimal!
+  cashBalance: BigDecimal!
   decimals: Int!
   id: ID!
   managedBalance: BigDecimal!
-  managements(first: Int = 100, orderBy: Investment_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: Investment_filter): [Investment!]
+  managements(first: Int = 100, orderBy: ManagementOperation_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: ManagementOperation_filter): [ManagementOperation!]
   name: String!
-  poolId: Pool!
+  poolId: Pool
   priceRate: BigDecimal!
   symbol: String!
   token: Token!
@@ -996,6 +1029,12 @@ input PoolToken_filter {
   address_not_starts_with_nocase: String
   address_starts_with: String
   address_starts_with_nocase: String
+  assetManager: Bytes
+  assetManager_contains: Bytes
+  assetManager_in: [Bytes!]
+  assetManager_not: Bytes
+  assetManager_not_contains: Bytes
+  assetManager_not_in: [Bytes!]
   balance: BigDecimal
   balance_gt: BigDecimal
   balance_gte: BigDecimal
@@ -1004,6 +1043,14 @@ input PoolToken_filter {
   balance_lte: BigDecimal
   balance_not: BigDecimal
   balance_not_in: [BigDecimal!]
+  cashBalance: BigDecimal
+  cashBalance_gt: BigDecimal
+  cashBalance_gte: BigDecimal
+  cashBalance_in: [BigDecimal!]
+  cashBalance_lt: BigDecimal
+  cashBalance_lte: BigDecimal
+  cashBalance_not: BigDecimal
+  cashBalance_not_in: [BigDecimal!]
   decimals: Int
   decimals_gt: Int
   decimals_gte: Int
@@ -1028,6 +1075,7 @@ input PoolToken_filter {
   managedBalance_lte: BigDecimal
   managedBalance_not: BigDecimal
   managedBalance_not_in: [BigDecimal!]
+  managements_: ManagementOperation_filter
   name: String
   name_contains: String
   name_contains_nocase: String
@@ -1049,6 +1097,7 @@ input PoolToken_filter {
   name_starts_with: String
   name_starts_with_nocase: String
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -1097,6 +1146,7 @@ input PoolToken_filter {
   symbol_starts_with: String
   symbol_starts_with_nocase: String
   token: String
+  token_: Token_filter
   token_contains: String
   token_contains_nocase: String
   token_ends_with: String
@@ -1128,7 +1178,9 @@ input PoolToken_filter {
 
 enum PoolToken_orderBy {
   address
+  assetManager
   balance
+  cashBalance
   decimals
   id
   managedBalance
@@ -1186,6 +1238,7 @@ input Pool_filter {
   factory_not: Bytes
   factory_not_contains: Bytes
   factory_not_in: [Bytes!]
+  historicalValues_: PoolHistoricalLiquidity_filter
   holdersCount: BigInt
   holdersCount_gt: BigInt
   holdersCount_gte: BigInt
@@ -1246,6 +1299,10 @@ input Pool_filter {
   name_not_starts_with_nocase: String
   name_starts_with: String
   name_starts_with_nocase: String
+  oracleEnabled: Boolean
+  oracleEnabled_in: [Boolean!]
+  oracleEnabled_not: Boolean
+  oracleEnabled_not_in: [Boolean!]
   owner: Bytes
   owner_contains: Bytes
   owner_in: [Bytes!]
@@ -1272,12 +1329,39 @@ input Pool_filter {
   poolType_not_starts_with_nocase: String
   poolType_starts_with: String
   poolType_starts_with_nocase: String
+  priceRateProviders_: PriceRateProvider_filter
   principalToken: Bytes
   principalToken_contains: Bytes
   principalToken_in: [Bytes!]
   principalToken_not: Bytes
   principalToken_not_contains: Bytes
   principalToken_not_in: [Bytes!]
+  root3Alpha: BigDecimal
+  root3Alpha_gt: BigDecimal
+  root3Alpha_gte: BigDecimal
+  root3Alpha_in: [BigDecimal!]
+  root3Alpha_lt: BigDecimal
+  root3Alpha_lte: BigDecimal
+  root3Alpha_not: BigDecimal
+  root3Alpha_not_in: [BigDecimal!]
+  shares_: PoolShare_filter
+  snapshots_: PoolSnapshot_filter
+  sqrtAlpha: BigDecimal
+  sqrtAlpha_gt: BigDecimal
+  sqrtAlpha_gte: BigDecimal
+  sqrtAlpha_in: [BigDecimal!]
+  sqrtAlpha_lt: BigDecimal
+  sqrtAlpha_lte: BigDecimal
+  sqrtAlpha_not: BigDecimal
+  sqrtAlpha_not_in: [BigDecimal!]
+  sqrtBeta: BigDecimal
+  sqrtBeta_gt: BigDecimal
+  sqrtBeta_gte: BigDecimal
+  sqrtBeta_in: [BigDecimal!]
+  sqrtBeta_lt: BigDecimal
+  sqrtBeta_lte: BigDecimal
+  sqrtBeta_not: BigDecimal
+  sqrtBeta_not_in: [BigDecimal!]
   strategyType: Int
   strategyType_gt: Int
   strategyType_gte: Int
@@ -1306,6 +1390,7 @@ input Pool_filter {
   swapsCount_lte: BigInt
   swapsCount_not: BigInt
   swapsCount_not_in: [BigInt!]
+  swaps_: Swap_filter
   symbol: String
   symbol_contains: String
   symbol_contains_nocase: String
@@ -1332,6 +1417,7 @@ input Pool_filter {
   tokensList_not: [Bytes!]
   tokensList_not_contains: [Bytes!]
   tokensList_not_contains_nocase: [Bytes!]
+  tokens_: PoolToken_filter
   totalLiquidity: BigDecimal
   totalLiquidity_gt: BigDecimal
   totalLiquidity_gte: BigDecimal
@@ -1395,6 +1481,7 @@ input Pool_filter {
   upperTarget_not: BigDecimal
   upperTarget_not_in: [BigDecimal!]
   vaultID: String
+  vaultID_: Balancer_filter
   vaultID_contains: String
   vaultID_contains_nocase: String
   vaultID_ends_with: String
@@ -1414,6 +1501,7 @@ input Pool_filter {
   vaultID_not_starts_with_nocase: String
   vaultID_starts_with: String
   vaultID_starts_with_nocase: String
+  weightUpdates_: GradualWeightUpdate_filter
   wrappedIndex: Int
   wrappedIndex_gt: Int
   wrappedIndex_gte: Int
@@ -1438,11 +1526,16 @@ enum Pool_orderBy {
   mainIndex
   managementFee
   name
+  oracleEnabled
   owner
   poolType
   priceRateProviders
   principalToken
+  root3Alpha
   shares
+  snapshots
+  sqrtAlpha
+  sqrtBeta
   strategyType
   swapEnabled
   swapFee
@@ -1517,6 +1610,7 @@ input PriceRateProvider_filter {
   lastCached_not: Int
   lastCached_not_in: [Int!]
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -1545,6 +1639,7 @@ input PriceRateProvider_filter {
   rate_not: BigDecimal
   rate_not_in: [BigDecimal!]
   token: String
+  token_: PoolToken_filter
   token_contains: String
   token_contains_nocase: String
   token_ends_with: String
@@ -1692,34 +1787,6 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: GradualWeightUpdate_filter
   ): [GradualWeightUpdate!]!
-  investment(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): Investment
-  managements(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: Investment_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-    where: Investment_filter
-  ): [Investment!]!
   joinExit(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -1776,6 +1843,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: LatestPrice_filter
   ): [LatestPrice!]!
+  managementOperation(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ManagementOperation
+  managementOperations(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ManagementOperation_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: ManagementOperation_filter
+  ): [ManagementOperation!]!
   pool(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -2285,34 +2380,6 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: GradualWeightUpdate_filter
   ): [GradualWeightUpdate!]!
-  investment(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): Investment
-  managements(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: Investment_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-    where: Investment_filter
-  ): [Investment!]!
   joinExit(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -2369,6 +2436,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: LatestPrice_filter
   ): [LatestPrice!]!
+  managementOperation(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ManagementOperation
+  managementOperations(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ManagementOperation_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: ManagementOperation_filter
+  ): [ManagementOperation!]!
   pool(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -2776,6 +2871,7 @@ type Swap {
   tokenOutSym: String!
   tx: Bytes!
   userAddress: User!
+  valueUSD: BigDecimal!
 }
 
 input Swap_filter {
@@ -2796,6 +2892,7 @@ input Swap_filter {
   id_not: ID
   id_not_in: [ID!]
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -2898,6 +2995,7 @@ input Swap_filter {
   tx_not_contains: Bytes
   tx_not_in: [Bytes!]
   userAddress: String
+  userAddress_: User_filter
   userAddress_contains: String
   userAddress_contains_nocase: String
   userAddress_ends_with: String
@@ -2917,6 +3015,14 @@ input Swap_filter {
   userAddress_not_starts_with_nocase: String
   userAddress_starts_with: String
   userAddress_starts_with_nocase: String
+  valueUSD: BigDecimal
+  valueUSD_gt: BigDecimal
+  valueUSD_gte: BigDecimal
+  valueUSD_in: [BigDecimal!]
+  valueUSD_lt: BigDecimal
+  valueUSD_lte: BigDecimal
+  valueUSD_not: BigDecimal
+  valueUSD_not_in: [BigDecimal!]
 }
 
 enum Swap_orderBy {
@@ -2932,6 +3038,7 @@ enum Swap_orderBy {
   tokenOutSym
   tx
   userAddress
+  valueUSD
 }
 
 type Token {
@@ -2939,7 +3046,9 @@ type Token {
   decimals: Int!
   id: ID!
   latestPrice: LatestPrice
+  latestUSDPrice: BigDecimal
   name: String
+  pool: Pool
   symbol: String
   totalBalanceNotional: BigDecimal!
   totalBalanceUSD: BigDecimal!
@@ -2993,6 +3102,7 @@ input TokenPrice_filter {
   id_not: ID
   id_not_in: [ID!]
   poolId: String
+  poolId_: Pool_filter
   poolId_contains: String
   poolId_contains_nocase: String
   poolId_ends_with: String
@@ -3078,6 +3188,7 @@ input TokenSnapshot_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   token: String
+  token_: Token_filter
   token_contains: String
   token_contains_nocase: String
   token_ends_with: String
@@ -3190,6 +3301,7 @@ input Token_filter {
   id_not: ID
   id_not_in: [ID!]
   latestPrice: String
+  latestPrice_: LatestPrice_filter
   latestPrice_contains: String
   latestPrice_contains_nocase: String
   latestPrice_ends_with: String
@@ -3209,6 +3321,14 @@ input Token_filter {
   latestPrice_not_starts_with_nocase: String
   latestPrice_starts_with: String
   latestPrice_starts_with_nocase: String
+  latestUSDPrice: BigDecimal
+  latestUSDPrice_gt: BigDecimal
+  latestUSDPrice_gte: BigDecimal
+  latestUSDPrice_in: [BigDecimal!]
+  latestUSDPrice_lt: BigDecimal
+  latestUSDPrice_lte: BigDecimal
+  latestUSDPrice_not: BigDecimal
+  latestUSDPrice_not_in: [BigDecimal!]
   name: String
   name_contains: String
   name_contains_nocase: String
@@ -3229,6 +3349,27 @@ input Token_filter {
   name_not_starts_with_nocase: String
   name_starts_with: String
   name_starts_with_nocase: String
+  pool: String
+  pool_: Pool_filter
+  pool_contains: String
+  pool_contains_nocase: String
+  pool_ends_with: String
+  pool_ends_with_nocase: String
+  pool_gt: String
+  pool_gte: String
+  pool_in: [String!]
+  pool_lt: String
+  pool_lte: String
+  pool_not: String
+  pool_not_contains: String
+  pool_not_contains_nocase: String
+  pool_not_ends_with: String
+  pool_not_ends_with_nocase: String
+  pool_not_in: [String!]
+  pool_not_starts_with: String
+  pool_not_starts_with_nocase: String
+  pool_starts_with: String
+  pool_starts_with_nocase: String
   symbol: String
   symbol_contains: String
   symbol_contains_nocase: String
@@ -3296,7 +3437,9 @@ enum Token_orderBy {
   decimals
   id
   latestPrice
+  latestUSDPrice
   name
+  pool
   symbol
   totalBalanceNotional
   totalBalanceUSD
@@ -3334,6 +3477,7 @@ input TradePairSnapshot_filter {
   id_not: ID
   id_not_in: [ID!]
   pair: String
+  pair_: TradePair_filter
   pair_contains: String
   pair_contains_nocase: String
   pair_ends_with: String
@@ -3399,6 +3543,7 @@ input TradePair_filter {
   id_not: ID
   id_not_in: [ID!]
   token0: String
+  token0_: Token_filter
   token0_contains: String
   token0_contains_nocase: String
   token0_ends_with: String
@@ -3419,6 +3564,7 @@ input TradePair_filter {
   token0_starts_with: String
   token0_starts_with_nocase: String
   token1: String
+  token1_: Token_filter
   token1_contains: String
   token1_contains_nocase: String
   token1_ends_with: String
@@ -3504,6 +3650,7 @@ input UserInternalBalance_filter {
   token_not_contains: Bytes
   token_not_in: [Bytes!]
   userAddress: String
+  userAddress_: User_filter
   userAddress_contains: String
   userAddress_contains_nocase: String
   userAddress_ends_with: String
@@ -3543,6 +3690,9 @@ input User_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  sharesOwned_: PoolShare_filter
+  swaps_: Swap_filter
+  userInternalBalances_: UserInternalBalance_filter
 }
 
 enum User_orderBy {

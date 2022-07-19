@@ -20,9 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
       - name: Cache
         uses: actions/cache@v2
         id: cache
@@ -40,9 +40,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
       - name: Cache
         uses: actions/cache@v2
         id: cache
@@ -62,9 +62,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
       - name: Cache
         uses: actions/cache@v2
         id: cache

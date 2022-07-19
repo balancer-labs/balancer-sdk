@@ -1,0 +1,38 @@
+query LiquidityGauges(
+  $skip: Int
+  $first: Int
+  $orderBy: LiquidityGauge_orderBy
+  $orderDirection: OrderDirection
+  $where: LiquidityGauge_filter
+  $block: Block_height
+) {
+  liquidityGauges(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    ...SubgraphLiquidityGauge
+  }
+}
+
+fragment SubgraphLiquidityGauge on LiquidityGauge {
+  id
+  symbol
+  poolAddress
+  poolId
+  streamer
+  factory {
+    id
+    numGauges
+  }
+  totalSupply
+  tokens {
+    id
+    symbol
+    decimals
+    totalDeposited
+  }
+}
