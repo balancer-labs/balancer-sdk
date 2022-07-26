@@ -195,6 +195,16 @@ export interface Pool {
   feesSnapshot?: string;
   boost?: string;
   symbol?: string;
+  amp?: string;
+  principleTokens?: string;
+  baseToken?: string;
+  expiryTime?: string;
+  unitSeconds?: string;
+  managementFee?: string;
+  mainIndex?: number;
+  wrappedIndex?: number;
+  lowerTarget?: string;
+  upperTarget?: string;
 }
 
 export interface PoolModel extends Pool {
