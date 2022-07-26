@@ -176,11 +176,13 @@ export interface Pool {
   address: string;
   poolType: PoolType;
   swapFee: string;
+  swapEnabled?: boolean;
   owner?: string;
   factory?: string;
   tokens: PoolToken[];
   tokensList: string[];
   tokenAddresses?: string[];
+  totalWeight?: string;
   totalLiquidity?: string;
   totalShares: string;
   totalSwapFee?: string;
@@ -196,10 +198,10 @@ export interface Pool {
   boost?: string;
   symbol?: string;
   amp?: string;
-  principleTokens?: string;
+  principalToken?: string;
   baseToken?: string;
-  expiryTime?: string;
-  unitSeconds?: string;
+  expiryTime?: number;
+  unitSeconds?: number;
   managementFee?: string;
   mainIndex?: number;
   wrappedIndex?: number;
