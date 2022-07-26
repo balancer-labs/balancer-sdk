@@ -174,7 +174,7 @@ export enum PoolType {
 export interface Pool {
   id: string;
   address: string;
-  poolType: PoolType;
+  poolType: string;
   swapFee: string;
   swapEnabled?: boolean;
   owner?: string;

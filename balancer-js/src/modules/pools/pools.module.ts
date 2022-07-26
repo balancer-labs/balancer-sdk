@@ -17,7 +17,7 @@ export class Pools {
   ) {}
 
   static from(
-    poolType: PoolType
+    poolType: string
   ): Weighted | Stable | MetaStable | StablePhantom | Linear {
     // Calculate spot price using pool type
     switch (poolType) {
