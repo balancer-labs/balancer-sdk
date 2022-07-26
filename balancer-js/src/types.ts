@@ -174,13 +174,14 @@ export enum PoolType {
 export interface Pool {
   id: string;
   address: string;
-  poolType: PoolType;
+  poolType: string;
   swapFee: string;
+  swapEnabled?: boolean;
   owner?: string;
   factory?: string;
   tokens: PoolToken[];
   tokensList: string[];
-  tokenAddresses?: string[];
+  totalWeight?: string;
   totalLiquidity?: string;
   totalShares: string;
   totalSwapFee?: string;
@@ -195,6 +196,16 @@ export interface Pool {
   feesSnapshot?: string;
   boost?: string;
   symbol?: string;
+  amp?: string;
+  principalToken?: string;
+  baseToken?: string;
+  expiryTime?: number;
+  unitSeconds?: number;
+  managementFee?: string;
+  mainIndex?: number;
+  wrappedIndex?: number;
+  lowerTarget?: string;
+  upperTarget?: string;
 }
 
 export interface PoolModel extends Pool {

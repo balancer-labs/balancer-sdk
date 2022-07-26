@@ -5,9 +5,9 @@
         "poolType": "StablePhantom",
         "swapFee": "0.00001",
         "tokensList": [
-            "0x2bbf681cc4eb09218bee85ea2a5d3d13fa40fc0c",
-            "0x804cdb9116a10bb78768d3252355a1b18067bf8f",
-            "0x9210f1204b5a24742eba12f710636d76240df3d0"
+            "0x2BBf681cC4eb09218BEe85EA2a5d3D13Fa40fC0C",
+            "0x804CdB9116a10bB78768D3252355a1b18067bF8f",
+            "0x9210F1204b5a24742Eba12f710636D76240dF3d0"
         ],
         "totalLiquidity": "150007905.550453543935857011320172079145115090126007295035922200415",
         "totalSwapVolume": "118306382.6326532550464085271297371",
@@ -92,10 +92,6 @@
                 "priceRate": "1"
             }
         },
-        "tokenAddresses": [
-            "0x2BBf681cC4eb09218BEe85EA2a5d3D13Fa40fC0C",
-            "0x804CdB9116a10bB78768D3252355a1b18067bF8f",
-            "0x9210F1204b5a24742Eba12f710636D76240dF3d0"
         ],
         "miningTotalLiquidity": "150007905.550453543935857011320172079145115090126007295035922200415",
         "hasLiquidityMiningRewards": false,
@@ -221,8 +217,8 @@
         "poolType": "MetaStable",
         "swapFee": "0.0004",
         "tokensList": [
-            "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
-            "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "totalLiquidity": "139510501.183981103034512309341968",
         "totalSwapVolume": "612338433.0456970790338563366556254",
@@ -246,10 +242,6 @@
                 "weight": null,
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "miningTotalLiquidity": "139510501.183981103034512309341968",
         "hasLiquidityMiningRewards": false,
@@ -281,9 +273,9 @@
         "poolType": "Stable",
         "swapFee": "0.00005",
         "tokensList": [
-            "0x6b175474e89094c44da98b954eedeac495271d0f",
-            "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-            "0xdac17f958d2ee523a2206206994597c13d831ec7"
+            "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+            "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "0xdAC17F958D2ee523a2206206994597C13D831ec7"
         ],
         "totalLiquidity": "131453052.853443817547795334055",
         "totalSwapVolume": "6578412673.80206165104033008",
@@ -313,11 +305,6 @@
                 "weight": null,
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-            "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-            "0xdAC17F958D2ee523a2206206994597C13D831ec7"
         ],
         "miningTotalLiquidity": "131453052.853443817547795334055",
         "hasLiquidityMiningRewards": false,
@@ -349,8 +336,8 @@
         "poolType": "Weighted",
         "swapFee": "0.001",
         "tokensList": [
-            "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-            "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "totalLiquidity": "95484733.974187327326801635",
         "totalSwapVolume": "1917261427.2449131854157914080227",
@@ -374,10 +361,6 @@
                 "weight": "0.5",
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "miningTotalLiquidity": "95484733.974187327326801635",
         "hasLiquidityMiningRewards": false,
@@ -409,8 +392,8 @@
         "poolType": "Weighted",
         "swapFee": "0.02",
         "tokensList": [
-            "0xba100000625a3754423978a60c9317c58a424e3d",
-            "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "0xba100000625a3754423978a60c9317c58a424e3D",
+            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "totalLiquidity": "74965180.836456544425325691",
         "totalSwapVolume": "876057014.5849226452824950311834075",
@@ -434,10 +417,6 @@
                 "weight": "0.2",
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0xba100000625a3754423978a60c9317c58a424e3D",
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "miningTotalLiquidity": "74965180.836456544425325691",
         "hasLiquidityMiningRewards": false,
@@ -463,8 +442,8 @@
         "poolType": "Weighted",
         "swapFee": "0.003",
         "tokensList": [
-            "0x956f47f50a910163d8bf957cf5846d573e7f87ca",
-            "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "0x956F47F50A910163D8BF957Cf5846D573E7f87CA",
+            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "totalLiquidity": "69413452.796841555255375956",
         "totalSwapVolume": "225885897.899894976213283983883831",
@@ -488,10 +467,6 @@
                 "weight": "0.3",
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0x956F47F50A910163D8BF957Cf5846D573E7f87CA",
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "miningTotalLiquidity": "69413452.796841555255375956",
         "hasLiquidityMiningRewards": false,
@@ -523,8 +498,8 @@
         "poolType": "Weighted",
         "swapFee": "0.00075",
         "tokensList": [
-            "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-            "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "totalLiquidity": "64774075.896455224444838848",
         "totalSwapVolume": "1398869931.798898",
@@ -548,10 +523,6 @@
                 "weight": "0.5",
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "miningTotalLiquidity": "64774075.896455224444838848",
         "hasLiquidityMiningRewards": false,
@@ -583,8 +554,8 @@
         "poolType": "Weighted",
         "swapFee": "0.0075",
         "tokensList": [
-            "0x6810e776880c02933d47db1b9fc05908e5386b96",
-            "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "0x6810e776880C02933D47DB1b9fc05908e5386b96",
+            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "totalLiquidity": "29818535.965987237573861643",
         "totalSwapVolume": "205441907.0055256339254302014757212",
@@ -608,10 +579,6 @@
                 "weight": "0.2",
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0x6810e776880C02933D47DB1b9fc05908e5386b96",
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "miningTotalLiquidity": "29818535.965987237573861643",
         "hasLiquidityMiningRewards": false,
@@ -643,8 +610,8 @@
         "poolType": "Weighted",
         "swapFee": "0.0075",
         "tokensList": [
-            "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e",
-            "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
+            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "totalLiquidity": "31883361.956900494488696621",
         "totalSwapVolume": "69052027.45619764575952231240813262",
@@ -668,10 +635,6 @@
                 "weight": "0.5",
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "miningTotalLiquidity": "31883361.956900494488696621",
         "hasLiquidityMiningRewards": false,
@@ -703,8 +666,8 @@
         "poolType": "Weighted",
         "swapFee": "0.0005",
         "tokensList": [
-            "0x6b175474e89094c44da98b954eedeac495271d0f",
-            "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "totalLiquidity": "31428988.780241321175128421",
         "totalSwapVolume": "2501664577.523403435820277332",
@@ -728,10 +691,6 @@
                 "weight": "0.4",
                 "priceRate": "1"
             }
-        ],
-        "tokenAddresses": [
-            "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
         ],
         "miningTotalLiquidity": "31428988.780241321175128421",
         "hasLiquidityMiningRewards": false,

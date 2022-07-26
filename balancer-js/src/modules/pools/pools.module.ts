@@ -1,4 +1,4 @@
-import { BalancerSdkConfig, PoolType } from '@/types';
+import { BalancerSdkConfig } from '@/types';
 import { Stable } from './pool-types/stable.module';
 import { Weighted } from './pool-types/weighted.module';
 import { MetaStable } from './pool-types/metaStable.module';
@@ -17,7 +17,7 @@ export class Pools {
   ) {}
 
   static from(
-    poolType: PoolType
+    poolType: string
   ): Weighted | Stable | MetaStable | StablePhantom | Linear {
     // Calculate spot price using pool type
     switch (poolType) {
