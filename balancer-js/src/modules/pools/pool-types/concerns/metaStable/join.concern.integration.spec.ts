@@ -17,7 +17,7 @@ import { TransactionReceipt } from '@ethersproject/providers';
 import { parseFixed, BigNumber } from '@ethersproject/bignumber';
 
 import { ADDRESSES } from '@/test/lib/constants';
-import { forkSetup, setupPool, updateBalances } from '@/test/lib/utils';
+import { forkSetup, setupPool, getBalances } from '@/test/lib/utils';
 import pools_14717479 from '@/test/lib/pools_14717479.json';
 import { PoolsProvider } from '@/modules/pools/provider';
 
@@ -83,12 +83,12 @@ describe('join execution', async () => {
       parseFixed(initialBalance, token.decimals).toString()
     );
     await forkSetup(
-      balancer,
       signer,
       tokensIn.map((t) => t.address),
       slots,
       balances,
       jsonRpcUrl as string,
+      false,
       14717479 // holds the same state as the static repository
     );
     signerAddress = await signer.getAddress();
@@ -101,11 +101,10 @@ describe('join execution', async () => {
         parseFixed(t.balance, t.decimals).div(amountsInDiv).toString()
       );
 
-      [bptBalanceBefore, ...tokensBalanceBefore] = await updateBalances(
-        pool,
+      [bptBalanceBefore, ...tokensBalanceBefore] = await getBalances(
+        [pool.address, ...pool.tokensList],
         signer,
-        signerAddress,
-        balancer
+        signerAddress
       );
 
       const slippage = '1';
@@ -120,11 +119,10 @@ describe('join execution', async () => {
 
       bptMinBalanceIncrease = BigNumber.from(minBPTOut);
       transactionReceipt = await (await signer.sendTransaction(tx)).wait();
-      [bptBalanceAfter, ...tokensBalanceAfter] = await updateBalances(
-        pool,
+      [bptBalanceAfter, ...tokensBalanceAfter] = await getBalances(
+        [pool.address, ...pool.tokensList],
         signer,
-        signerAddress,
-        balancer
+        signerAddress
       );
     });
 
@@ -154,11 +152,10 @@ describe('join execution', async () => {
         parseFixed(t.balance, t.decimals).div(amountsInDiv).toString()
       );
 
-      [bptBalanceBefore, ...tokensBalanceBefore] = await updateBalances(
-        pool,
+      [bptBalanceBefore, ...tokensBalanceBefore] = await getBalances(
+        [pool.address, ...pool.tokensList],
         signer,
-        signerAddress,
-        balancer
+        signerAddress
       );
 
       const slippage = '100';
@@ -174,11 +171,10 @@ describe('join execution', async () => {
       transactionReceipt = await transactionResponse.wait();
 
       bptMinBalanceIncrease = BigNumber.from(minBPTOut);
-      [bptBalanceAfter, ...tokensBalanceAfter] = await updateBalances(
-        pool,
+      [bptBalanceAfter, ...tokensBalanceAfter] = await getBalances(
+        [pool.address, ...pool.tokensList],
         signer,
-        signerAddress,
-        balancer
+        signerAddress
       );
     });
 

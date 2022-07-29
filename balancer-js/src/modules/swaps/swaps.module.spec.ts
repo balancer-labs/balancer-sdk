@@ -12,7 +12,7 @@ import { getNetworkConfig } from '@/modules/sdk.helpers';
 import { mockPool, mockPoolDataService } from '@/test/lib/mockPool';
 import { SwapTransactionRequest, SwapType } from './types';
 import { Vault__factory } from '@balancer-labs/typechain';
-import vaultActionsAbi from '@/lib/abi/VaultActions.json';
+import BatchRelayerLibraryAbi from '@/lib/abi/BatchRelayerLibrary.json';
 import { Interface } from '@ethersproject/abi';
 import { BigNumber } from '@ethersproject/bignumber';
 import { AddressZero, MaxUint256 } from '@ethersproject/constants';
@@ -34,7 +34,7 @@ const sdkConfig: BalancerSdkConfig = {
 };
 
 const vaultInterface = Vault__factory.createInterface();
-const vaultActions = new Interface(vaultActionsAbi);
+const vaultActions = new Interface(BatchRelayerLibraryAbi);
 
 const funds = {
   fromInternalBalance: false,

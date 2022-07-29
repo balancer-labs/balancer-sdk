@@ -15,6 +15,7 @@ export * from './modules/sor/sor.module';
 export * from './modules/pools/pools.module';
 export * from './modules/data';
 export * from './balancerErrors';
+export * from './lib/utils/signatures';
 export {
   SwapInfo,
   SubgraphPoolBase,

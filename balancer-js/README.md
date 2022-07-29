@@ -22,7 +22,15 @@ Installation instructions for:
 
 * [Hardhat](https://hardhat.org/getting-started/#installation)
 
-  To start a forked node:
+  To start a forked node, set env vars:
+
+  ```
+  ALCHEMY_URL (required) - remote node url to be forked locally
+  FORK_BLOCK_NUMBER (optional) - block number at which fork will happen
+  ```
+
+  and run following command on terminal:
+
   ```
   npm run node
   ```

@@ -21,8 +21,10 @@ import {
 } from '../swaps/types';
 import { SubgraphPoolBase } from '@balancer-labs/sor';
 
-import relayerLibraryAbi from '@/lib/abi/VaultActions.json';
+import relayerLibraryAbi from '@/lib/abi/BatchRelayerLibrary.json';
 import aaveWrappingAbi from '@/lib/abi/AaveWrapping.json';
+
+const relayerLibrary = new Interface(relayerLibraryAbi);
 
 export * from './types';
 
@@ -39,9 +41,54 @@ export class Relayer {
     }
   }
 
-  static encodeBatchSwap(params: EncodeBatchSwapInput): string {
-    const relayerLibrary = new Interface(relayerLibraryAbi);
+  static encodeApproveVault(tokenAddress: string, maxAmount: string): string {
+    return relayerLibrary.encodeFunctionData('approveVault', [
+      tokenAddress,
+      maxAmount,
+    ]);
+  }
 
+  static encodeSetRelayerApproval(
+    relayerAdress: string,
+    approved: boolean,
+    authorisation: string
+  ): string {
+    return relayerLibrary.encodeFunctionData('setRelayerApproval', [
+      relayerAdress,
+      approved,
+      authorisation,
+    ]);
+  }
+
+  static encodeGaugeWithdraw(
+    gaugeAddress: string,
+    sender: string,
+    recipient: string,
+    amount: string
+  ): string {
+    return relayerLibrary.encodeFunctionData('gaugeWithdraw', [
+      gaugeAddress,
+      sender,
+      recipient,
+      amount,
+    ]);
+  }
+
+  static encodeGaugeDeposit(
+    gaugeAddress: string,
+    sender: string,
+    recipient: string,
+    amount: string
+  ): string {
+    return relayerLibrary.encodeFunctionData('gaugeDeposit', [
+      gaugeAddress,
+      sender,
+      recipient,
+      amount,
+    ]);
+  }
+
+  static encodeBatchSwap(params: EncodeBatchSwapInput): string {
     return relayerLibrary.encodeFunctionData('batchSwap', [
       params.swapType,
       params.swaps,
@@ -55,8 +102,6 @@ export class Relayer {
   }
 
   static encodeExitPool(params: EncodeExitPoolInput): string {
-    const relayerLibrary = new Interface(relayerLibraryAbi);
-
     return relayerLibrary.encodeFunctionData('exitPool', [
       params.poolId,
       params.poolKind,

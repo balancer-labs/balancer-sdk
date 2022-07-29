@@ -9,6 +9,7 @@ import { Pricing } from './pricing/pricing.module';
 import { ContractInstances, Contracts } from './contracts/contracts.module';
 import { PoolsProvider } from './pools/provider';
 import { SubgraphPoolRepository } from './data/pool/subgraph';
+import { Zaps } from './zaps/zaps.module';
 
 export interface BalancerSDKRoot {
   config: BalancerSdkConfig;
@@ -25,6 +26,7 @@ export class BalancerSDK implements BalancerSDKRoot {
   readonly relayer: Relayer;
   readonly pricing: Pricing;
   balancerContracts: Contracts;
+  zaps: Zaps;
 
   constructor(
     public config: BalancerSdkConfig,
@@ -44,6 +46,7 @@ export class BalancerSDK implements BalancerSDKRoot {
       networkConfig.addresses.contracts,
       sor.provider
     );
+    this.zaps = new Zaps(networkConfig.chainId);
   }
 
   get networkConfig(): BalancerNetworkConfig {
