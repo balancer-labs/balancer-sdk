@@ -27,6 +27,22 @@ export class PoolsProvider {
           slippage,
           wrappedNativeAsset: networkConfig.addresses.tokens.wrappedNativeAsset,
         }),
+      buildExitExactBPTIn: (exiter, bptIn, slippage, singleTokenMaxOut) =>
+        methods.exit.buildExitExactBPTIn({
+          exiter,
+          pool: data,
+          bptIn,
+          slippage,
+          singleTokenMaxOut,
+        }),
+      buildExitExactTokensOut: (exiter, tokensOut, amountsOut, slippage) =>
+        methods.exit.buildExitExactTokensOut({
+          exiter,
+          pool: data,
+          tokensOut,
+          amountsOut,
+          slippage,
+        }),
       // TODO: spotPrice fails, because it needs a subgraphType,
       // either we refetch or it needs a type transformation from SDK internal to SOR (subgraph)
       // spotPrice: async (tokenIn: string, tokenOut: string) =>

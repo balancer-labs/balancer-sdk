@@ -8,6 +8,17 @@ import { keccak256 } from '@ethersproject/solidity';
 import { PoolsProvider } from '@/modules/pools/provider';
 import { PoolModel, BalancerError, BalancerErrorCode, Pool } from '@/.';
 
+/**
+ * Setup local fork with approved token balance for a given account
+ *
+ * @param {BalancerSDK}   balancer Balancer SDK required to fetch contracts
+ * @param {JsonRpcSigner} signer Account that will have token balance set and approved
+ * @param {string[]}      tokens Token addresses which balance will be set and approved
+ * @param {number[]}      slots Slot that stores token balance in memory - use npm package `slot20` to identify which slot to provide
+ * @param {string[]}      balances Balances in EVM amounts
+ * @param {string}        jsonRpcUrl Url with remote node to be forked locally
+ * @param {number}        blockNumber Number of the block that the fork will happen
+ */
 export const forkSetup = async (
   balancer: BalancerSDK,
   signer: JsonRpcSigner,

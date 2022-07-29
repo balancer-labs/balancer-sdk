@@ -1,6 +1,7 @@
 import { Pool, PoolType } from '@/types';
 import { PoolAttribute, PoolRepository } from './types';
 import { PoolToken, SubgraphClient } from '@/modules/subgraph/subgraph';
+import { BalancerError, BalancerErrorCode } from '@/balancerErrors';
 
 export class SubgraphPoolRepository implements PoolRepository {
   constructor(private client: SubgraphClient) {}
@@ -34,9 +35,11 @@ export class SubgraphPoolRepository implements PoolRepository {
   private mapPool(pool: any): Pool | undefined {
     if (!pool) return undefined;
     const poolType = pool?.poolType as PoolType;
-    if (!poolType) throw new Error('Unknown pool type');
+    if (!poolType)
+      throw new BalancerError(BalancerErrorCode.UNSUPPORTED_POOL_TYPE);
     const tokens = (pool?.tokens as PoolToken[]) || [];
-    if (tokens.length === 0) throw new Error('Pool without tokens');
+    if (tokens.length === 0)
+      throw new BalancerError(BalancerErrorCode.MISSING_TOKENS);
     return {
       ...pool,
       poolType,

@@ -1,5 +1,12 @@
 import { expect } from 'chai';
-import { BalancerSdkConfig, Network, StaticPoolRepository, Pool } from '@/.';
+import {
+  BalancerError,
+  BalancerErrorCode,
+  BalancerSdkConfig,
+  Network,
+  StaticPoolRepository,
+  Pool,
+} from '@/.';
 import { PoolsProvider } from '@/modules/pools/provider';
 
 import pools_14717479 from '@/test/lib/pools_14717479.json';
@@ -22,7 +29,7 @@ describe('join module', () => {
       new StaticPoolRepository(pools_14717479 as Pool[])
     );
     const pool = await pools.find(weth_usdc_pool_id);
-    if (!pool) throw new Error('Pool not found');
+    if (!pool) throw new BalancerError(BalancerErrorCode.POOL_DOESNT_EXIST);
     it('should return encoded params', async () => {
       const account = '0x35f5a330fd2f8e521ebd259fa272ba8069590741';
       const tokensIn = [USDC_address, WETH_address];
