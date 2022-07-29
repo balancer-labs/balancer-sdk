@@ -2,6 +2,7 @@ import {
   BigNumber,
   BigNumberish,
   parseFixed as _parseFixed,
+  formatFixed,
 } from '@ethersproject/bignumber';
 
 export function parseFixed(value: string, decimals?: BigNumberish): BigNumber {
@@ -13,4 +14,12 @@ export function parseFixed(value: string, decimals?: BigNumberish): BigNumber {
   }
 
   return _parseFixed(parsedValue, decimals);
+}
+
+export function parseToBigInt18(value: string): bigint {
+  return parseFixed(value, 18).toBigInt();
+}
+
+export function formatFromBigInt18(value: bigint): string {
+  return formatFixed(BigNumber.from(value), 18);
 }

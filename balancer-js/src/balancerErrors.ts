@@ -7,6 +7,7 @@ export enum BalancerErrorCode {
   UNSUPPORTED_POOL_TYPE = 'UNSUPPORTED_POOL_TYPE',
   UNSUPPORTED_PAIR = 'UNSUPPORTED_PAIR',
   NO_POOL_DATA = 'NO_POOL_DATA',
+  ARRAY_LENGTH_MISMATCH = 'ARRAY_LENGTH_MISMATCH',
   INPUT_LENGTH_MISMATCH = 'INPUT_LENGTH_MISMATCH',
   MISSING_AMP = 'MISSING_AMP',
   MISSING_DECIMALS = 'MISSING_DECIMALS',
@@ -38,6 +39,8 @@ export class BalancerError extends Error {
         return 'unsupported token pair';
       case BalancerErrorCode.NO_POOL_DATA:
         return 'no pool data';
+      case BalancerErrorCode.ARRAY_LENGTH_MISMATCH:
+        return 'array lengths must match';
       case BalancerErrorCode.INPUT_LENGTH_MISMATCH:
         return 'input length mismatch';
       case BalancerErrorCode.MISSING_AMP:

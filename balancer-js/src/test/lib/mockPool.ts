@@ -1,5 +1,5 @@
 import { PoolDataService } from '@balancer-labs/sor';
-import { SubgraphPoolBase } from '@/.';
+import { SubgraphPoolBase, BalancerError, BalancerErrorCode } from '@/.';
 
 export class MockPoolDataService implements PoolDataService {
   constructor(private pools: SubgraphPoolBase[] = []) {}
@@ -10,6 +10,12 @@ export class MockPoolDataService implements PoolDataService {
 
   public setPools(pools: SubgraphPoolBase[]): void {
     this.pools = pools;
+  }
+
+  public getPool(poolId: string): SubgraphPoolBase {
+    const pool = this.pools.find((pool) => pool.id == poolId);
+    if (!pool) throw new BalancerError(BalancerErrorCode.POOL_DOESNT_EXIST);
+    return pool;
   }
 }
 

@@ -69,6 +69,13 @@ async function join() {
     slippage
   );
 
+  // Calculate price impact
+  const priceImpact = await pool.priceImpact(
+    pool,
+    amountsIn as string[],
+    minBPTOut
+  );
+
   // Submit join tx
   const transactionResponse = await signer.sendTransaction({
     to,
@@ -91,6 +98,10 @@ async function join() {
   console.log(
     'Minimum BPT balance expected after join: ',
     formatFixed(minBPTOut, 18)
+  );
+  console.log(
+    'Price impact: ',
+    formatFixed(priceImpact, 18)
   );
 }
 

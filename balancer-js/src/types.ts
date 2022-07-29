@@ -195,6 +195,7 @@ export interface Pool {
   feesSnapshot?: string;
   boost?: string;
   symbol?: string;
+  swapEnabled: boolean;
   amp?: string;
 }
 
